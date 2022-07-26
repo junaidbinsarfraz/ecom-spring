@@ -36,6 +36,13 @@ public class CustomerService {
         order.setBillingAddress(purchase.getBillingAddress());
 
         Customer customer = purchase.getCustomer();
+
+        Customer customerDb = this.customerRepository.findByEmail(customer.getEmail());
+
+        if(customerDb != null) {
+            customer = customerDb;
+        }
+
         customer.add(order);
 
         this.customerRepository.save(customer);

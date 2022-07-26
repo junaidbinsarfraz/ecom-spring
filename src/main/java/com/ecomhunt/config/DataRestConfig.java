@@ -5,6 +5,7 @@ import com.ecomhunt.entities.Product;
 import com.ecomhunt.entities.ProductCategory;
 import com.ecomhunt.entities.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.mapping.ExposureConfigurer;
@@ -18,16 +19,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Use only for Spring Data Rest not for others like Spring Controllers etc
+ */
 @Configuration
 public class DataRestConfig implements RepositoryRestConfigurer {
 
     @Autowired
     private EntityManager entityManager;
 
+    @Value("${allowed.origins}")
+    private String[] allowedOrigins;
+
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        HttpMethod[] unsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
+        HttpMethod[] unsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH};
 
         disableHttpMethods(config.getExposureConfiguration()
                 .forDomainType(Product.class), unsupportedActions);
@@ -42,6 +49,9 @@ public class DataRestConfig implements RepositoryRestConfigurer {
                 .forDomainType(State.class), unsupportedActions);
 
         exposePrimaryIds(config);
+
+        // config.getBasePath() read value from @Value(${spring.data.rest.base-path})
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(this.allowedOrigins);
     }
 
     private void disableHttpMethods(ExposureConfigurer config, HttpMethod[] unsupportedActions) {
