@@ -15,6 +15,7 @@
 	<description>Ecommerce platform for shipping</description>
 	<properties>
 		<java.version>18</java.version>
+		<okta.springboot.version>2.1.5</okta.springboot.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,6 +37,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.okta.spring</groupId>
+			<artifactId>okta-spring-boot-starter</artifactId>
+			<version>${okta.springboot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

@@ -1,9 +1,6 @@
 package com.ecomhunt.config;
 
-import com.ecomhunt.entities.Country;
-import com.ecomhunt.entities.Product;
-import com.ecomhunt.entities.ProductCategory;
-import com.ecomhunt.entities.State;
+import com.ecomhunt.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +44,9 @@ public class DataRestConfig implements RepositoryRestConfigurer {
 
         disableHttpMethods(config.getExposureConfiguration()
                 .forDomainType(State.class), unsupportedActions);
+
+        disableHttpMethods(config.getExposureConfiguration()
+                .forDomainType(Order.class), unsupportedActions);
 
         exposePrimaryIds(config);
 
