@@ -3,10 +3,10 @@ package com.ecomhunt.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class AppConfig implements WebMvcConfigurer {
+public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Value("${allowed.origins}")
     private String[] allowedOrigins;
@@ -16,6 +16,6 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping(this.baseUrl).allowedOrigins(this.allowedOrigins);
+        registry.addMapping(this.baseUrl + "/**").allowedOrigins(this.allowedOrigins);
     }
 }
